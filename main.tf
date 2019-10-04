@@ -9,7 +9,8 @@ provider "aws" {
 resource "aws_instance" "example" {
   ami           = "ami-0cfee17793b08a293"
   instance_type = "t2.micro"
-  vpc_security_group_ids = [aws_security_group.instance.id]   # you are referening to another resource created later.
+  # you are referening to another resource created later.
+  vpc_security_group_ids = [aws_security_group.awssg.id]
   user_data = <<-EOF
               #!/bin/bash
               echo "Welcome to the world of Terraform" > index.html
@@ -24,8 +25,8 @@ resource "aws_instance" "example" {
 #the following resource is important because, you cannot the webserver
 #you created in the above statement without opening the port 8080
 
-resource "aws_security_group" "instance" {
-  name = "terraform-example-instance"
+resource "aws_security_group" "awssg" {
+  name = "awssg"
 
   ingress {
     from_port   = 8080

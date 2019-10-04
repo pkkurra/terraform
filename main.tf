@@ -9,10 +9,10 @@ provider "aws" {
 resource "aws_instance" "example" {
   ami           = "ami-0cfee17793b08a293"
   instance_type = "t2.micro"
-
+  vpc_security_group_ids = [aws_security_group.instance.id]   # you are referening to another resource created later.
   user_data = <<-EOF
               #!/bin/bash
-              echo "Hello, World" > index.html
+              echo "Welcome to the world of Terraform" > index.html
               nohup busybox httpd -f -p 8080 &
               EOF
 
